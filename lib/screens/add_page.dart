@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:new_crud_api/model/task_model.dart';
 import 'package:new_crud_api/services/todo_services.dart';
 
 import '../utils/snackbar_helper.dart';
 
 class AddTodoPage extends StatefulWidget {
-  final Map? todo;
+  final TodoModel? todo;
 
   const AddTodoPage({super.key, this.todo});
 
@@ -13,6 +14,7 @@ class AddTodoPage extends StatefulWidget {
 }
 
 class _AddTodoPageState extends State<AddTodoPage> {
+  final TodoService service = TodoService();
   TextEditingController titleController = TextEditingController();
   TextEditingController descController = TextEditingController();
   bool isEdit = false;
@@ -23,10 +25,10 @@ class _AddTodoPageState extends State<AddTodoPage> {
     final todo = widget.todo;
     if (todo != null) {
       isEdit = true;
-      final title = todo['title'];
-      final description = todo['description'];
-      titleController.text = title;
-      descController.text = description;
+      final title = todo.title;
+      final description = todo.description;
+      titleController.text = title!;
+      descController.text = description!;
     }
   }
 
@@ -70,8 +72,8 @@ class _AddTodoPageState extends State<AddTodoPage> {
       print('You can not  call updated without todo sata');
       return;
     }
-    final id = todo['_id'];
-    final isSuccess = await TodoService.updateData(id, body);
+    final id = todo.id;
+    final isSuccess = await service.updateData(id!, body);
     if (isSuccess) {
       showSuccessMessage(context, message: 'Updation Success');
     } else {
@@ -82,25 +84,23 @@ class _AddTodoPageState extends State<AddTodoPage> {
   Future<void> submitData() async {
     //Submit data to the server
 
-    final isSuccess = await TodoService.addTodo(body);
+    final isSuccess = await service.addTodo(body);
 
     if (isSuccess) {
       titleController.text = '';
       descController.text = '';
-      showSuccessMessage(context, message: 'Creation Success',
+      showSuccessMessage(
+        context,
+        message: 'Creation Success',
       );
     } else {
       showErrorMessage(context, message: 'Creation failed');
     }
   }
 
-  Map get body {
+  TodoModel get body {
     final title = titleController.text;
     final description = descController.text;
-    return {
-      "title": title,
-      "description": description,
-      "is_completed": false
-    };
+    return TodoModel(id: widget.todo?.id,title: title,dbId: widget.todo?.dbId, description: description, isSynced: true,);
   }
 }

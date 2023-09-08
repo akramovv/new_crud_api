@@ -1,27 +1,48 @@
+
 class TodoModel {
-  final int? id;
+  final String? id;
+  final int? dbId;
   final String? title;
-  final String? desc;
-  final String? dateandtime;
+  final String? description;
+  final bool? isSynced;
 
   TodoModel({
     this.id,
+    this.dbId,
     this.title,
-    this.dateandtime,
-    this.desc,
+    this.description,
+    this.isSynced,
   });
 
   TodoModel.fromMap(Map<String, dynamic> res)
-      : id = res['id'],
+      : id = res['_id'],
+        dbId = null,
         title = res['title'],
-        desc = res['desc'],
-        dateandtime = res['dateandtime'];
+        isSynced = true,
+        description = res['description'];
+
+  TodoModel.fromDbMap(Map<String, dynamic> res)
+      : id = res['todoID'],
+        dbId = res['id'],
+        title = res['title'],
+        isSynced = res['isSynced'] == 1,
+        description = res['description'];
+
   Map<String, Object?> toMap() {
     return {
-      "id": id,
+      "_id": id,
       "title": title,
-      "desc": desc,
-      "dateandtime": dateandtime,
+      "description": description,
+      "isSynced": isSynced,
+    };
+  }
+
+  Map<String, Object?> toDbMap() {
+    return {
+      "todoId": id,
+      "title": title,
+      "description": description,
+      "isSynced": isSynced,
     };
   }
 }
