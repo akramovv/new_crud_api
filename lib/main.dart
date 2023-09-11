@@ -25,10 +25,12 @@ class MyApp extends StatelessWidget {
         var filteredList =
             list.where((element) => element.isSynced == false).toList();
         await Future.forEach(filteredList, (element) async {
-          if(element.id==null){
+          if (element.isDeleted == true) {
+            await service.deleteById(element.id!);
+          } else if (element.id == null) {
             await service.addTodo(element);
-          }else{
-            await service.updateData(element.id!,element);
+          } else {
+            await service.updateData(element.id!, element);
           }
         });
       }

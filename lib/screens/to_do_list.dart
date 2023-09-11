@@ -101,7 +101,7 @@ class _TodoListPageState extends State<TodoListPage> {
     fetchTodo();
   }
 
-  Future<void> deleteById(String id) async {
+  Future<void> deleteById(String id,) async {
     final isSuccess = await service.deleteById(id);
     if (isSuccess) {
       final filtered = items.where((element) => element.id != id).toList();

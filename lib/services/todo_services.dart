@@ -8,10 +8,23 @@ DBHelper dbHelper = DBHelper();
 
 class TodoService {
   Future<bool> deleteById(String id) async {
-    final url = 'https://api.nstack.in/v1/todos/$id';
-    final uri = Uri.parse(url);
-    final response = await http.delete(uri);
-    return response.statusCode == 200;
+    try {
+      final url = 'https://api.nstack.in/v1/todos/$id';
+      final uri = Uri.parse(url);
+      final response = await http.delete(uri);
+      return response.statusCode == 200;
+    } catch (e) {
+      var list = await dbHelper.getDataList();
+      var item = list.firstWhere((element) => element.id == id);
+      if(item.isDeleted==false){
+        item.isDeleted = true;
+        item.isSynced = false;
+        dbHelper.update(item);
+        return true;
+      }else {
+        return false;
+      }
+    }
   }
 
   Future<List<TodoModel>> fetchTodo() async {
