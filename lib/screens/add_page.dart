@@ -101,6 +101,6 @@ class _AddTodoPageState extends State<AddTodoPage> {
   TodoModel get body {
     final title = titleController.text;
     final description = descController.text;
-    return TodoModel(id: widget.todo?.id,title: title,dbId: widget.todo?.dbId, description: description, isSynced: true,);
+    return TodoModel(id:  widget.todo?.id,title: title,dbId: widget.todo?.dbId, description: description, isSynced: true,);
   }
 }

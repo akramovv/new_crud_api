@@ -37,7 +37,8 @@ class MyApp extends StatelessWidget {
     });
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData(primarySwatch: Colors.blue,
+        primaryColor: Colors.black12,),
       home: const TodoListPage(),
     );
   }

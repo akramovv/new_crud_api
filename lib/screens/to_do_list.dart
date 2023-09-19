@@ -3,6 +3,7 @@ import 'package:new_crud_api/screens/add_page.dart';
 import 'package:new_crud_api/services/todo_services.dart';
 import 'package:new_crud_api/widget/todo_card.dart';
 
+import '../model/search.dart';
 import '../model/task_model.dart';
 import '../utils/snackbar_helper.dart';
 
@@ -14,6 +15,7 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
+  Icon searchIcon=const Icon(Icons.search);
   bool isLoading = true;
   final TodoService service = TodoService();
   List<TodoModel> items = [];
@@ -27,8 +29,16 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(),
       appBar: AppBar(
         title: const Text('Todo List'),
+        actions:  [
+        IconButton(
+                onPressed: (){
+                  showSearch(context: context,
+                    delegate: MySearchDelegate());},
+                icon:searchIcon)
+        ],
       ),
       body: Visibility(
         visible: isLoading,

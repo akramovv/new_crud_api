@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:new_crud_api/model/task_model.dart';
 import 'package:new_crud_api/services/database_helper.dart';
